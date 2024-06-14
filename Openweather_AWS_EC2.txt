@@ -1,0 +1,94 @@
+2cbe105e0d6e92b656a468bd53823442
+
+https://api.openweathermap.org/data/2.5/weather?q={city name},{country code}&appid={API key}
+
+https://api.openweathermap.org/data/2.5/weather?q= Waterloo,CA&appid=2cbe105e0d6e92b656a468bd53823442
+
+{"coord":{"lon":-80.5164,"lat":43.4668},"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01n"}],"base":"stations",
+"main":{"temp":286.09,"feels_like":285.76,"temp_min":284.67,"temp_max":286.42,"pressure":1016,"humidity":89},"visibility":10000,
+"wind":{"speed":3.09,"deg":180},"clouds":{"all":0},"dt":1718162240,"sys":{"type":2,"id":60894,"country":"CA","sunrise":1718098855,"sunset":1718154176},
+"timezone":-14400,"id":6176823,"name":"Waterloo","cod":200}
+
+sudo apt update
+sudo apt install python3-pip
+sudo apt install python3-venv
+python3 -m venv airflow_venv
+sudo pip install pandas
+sudo pip install s3fs
+sudo pip install apache-airflow
+airflow standalone
+sudo apt  install awscli
+aws configure
+aws sts get-session-token
+
+
+1. Launch Instance:- Launching AWS EC2 instance providing - instance name, OS of the instance server(here ubuntu), pem file name. 
+   a. Able to find all the details
+2. Now pem file gets downloaded in downloads folder. 
+3. Connect the instance:
+4. First Check, connect using cmd. 
+   a. Go to the downloads path where the pem file is located. --> cd/downloads
+   b. Now type yes to continue.
+   c. If u see ubuntu machine as new path , then it says connection has been established between our local machine(client) and EC2 instance virtual machine(server).
+   d. Close cmd
+5. Now open VS Code. Install SSH Remote extension
+6. Click on bottom-left icon to open remote. New VS Code window opens.
+7. Under the search drop-down, select connect-to-host and select the  EC2 instance created. Then, yes to continue.
+8. Open a new terminal in VS Code, ubuntu machine path found.
+9. Inside the terminal
+   a. Now create a new directory:  mkdir ec2_openweather
+   b. Create a new file: touch main.py
+   c. install packages : sudo apt update, sudo apt install python3-pip
+   d. Now To install python pakages- pandas, requests. setup venv 
+	  Activate your virtual environment before installing packages to ensure they are installed in the correct environment.
+	  --> sudo apt install python3-venv
+      Create Virtual environment:
+      --> python3.12 -m venv myenv
+	  Activate the Virtual Environment: 
+	  --> source myenv/bin/activate
+10. pip install pandas
+
+
+
+standalone | Airflow is ready
+standalone | Login with username: admin  password: 5ke23yHGwCTdxPbD
+standalone | Airflow Standalone is for development purposes only. Do not use this in production!
+ 
+
+
+http://ec2-18-119-28-2.us-east-2.compute.amazonaws.com:8080/ 
+How It All Connects
+DNS Name Resolution:
+
+When you enter the URL into your browser, the DNS name ec2-18-119-28-2.us-east-2.compute.amazonaws.com is resolved to an IP address using the Domain Name System (DNS).
+For example, ec2-18-119-28-2.us-east-2.compute.amazonaws.com might resolve to an IP address like 18.119.28.2.
+Connecting to the IP Address:
+
+The browser uses the resolved IP address 18.119.28.2 to establish a connection to the EC2 instance.
+Specifying the Port:
+
+The :8080 in the URL tells the browser to connect to port 8080 on the EC2 instance.
+Ports are used to differentiate between different services running on the same server. For example, HTTP typically uses port 80, HTTPS uses port 443, and in this case, Airflow is configured to use port 8080.
+
+
+Airflow Web Server Configuration:
+Assume you have installed Apache Airflow on the EC2 instance and configured its web server to listen on port 8080.
+
+In the airflow.cfg file, you might have the following configuration:
+web_server_port = 8080
+web_server_host = 0.0.0.0
+EC2 Security Group:
+
+You need to ensure that the EC2 instance’s security group allows inbound traffic on port 8080.
+
+This means adding a rule like:
+	Type: Custom TCP Rule
+	Protocol: TCP
+	Port Range: 8080
+	Source: 0.0.0.0/0 (or restrict to specific IP addresses for better security)
+
+Accessing the Airflow Web Interface:
+When you visit http://ec2-18-119-28-2.us-east-2.compute.amazonaws.com:8080 in your browser:
+The DNS name resolves to the IP address of your EC2 instance.
+The browser connects to this IP address on port 8080.
+The request is handled by the Airflow web server running on the EC2 instance, and you see the Airflow web interface.
